@@ -37,21 +37,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 					case	'help':
 						bot.sendMessage({
 							to: channelID,
-							message: "Here's how to use the BitBean Exchange bot on this server!
-							!wallet new <wallet_address>: *Records your wallet address for easy exchange of BitBean by you, server staff, or other users.*
-							!wallet give <user_tag>: *Gives a server member a set amount of BitBean (you'll be prompted for the amount by the bot to confirm the transaction).*
-							!wallet request <user_tag>: *Requests a set amoung of BitBean from a user (again, you'll be prompted by a user, pls don't spam this).*
-							
-							If you have any further questions, please don't hesitate to contact server staff or refer to the BitBean Exchange documentation."
+							message: "Here's how to use the BitBean Exchange bot on this server!\n\t!wallet new <wallet_address>: *Records your wallet address for easy exchange of BitBean by you, server staff, or other users.*\n\t!wallet give <user_tag>: *Gives a server member a set amount of BitBean (you'll be prompted for the amount by the bot to confirm the transaction).*\n\t!wallet request <user_tag>: *Requests a set amoung of BitBean from a user (again, you'll be prompted by a user, pls don't spam this).*\n\n\tIf you have any further questions, please don't hesitate to contact server staff or refer to the BitBean Exchange documentation."
 						});
 					case	'new':
-						var wallet_add = args[2]
+						var wallet_add = args[2];
 						bot.sendMessage({
 							to: channelID,
-							t_hanks = "Thank you, username! Your wallet address has been recorded for ease of trading BitBean."
+							message: "Thank you, username! Your wallet address has been recorded for ease of trading BitBean."
 						});
-					});
-				})
+					break;
+				}
             break;
             // Just add any case commands if you want to..
          }
