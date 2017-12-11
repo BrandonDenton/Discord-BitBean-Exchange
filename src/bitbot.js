@@ -32,7 +32,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 			bot.sendMessage({
 				to: channelID,
 				//message: "According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible."
-				message: "ur fuckin gay"
+				message: "dont work now boi"
 			});
 		} else if (cmd == 'wallet') {
 			switch(walletcmd) {
