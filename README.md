@@ -10,5 +10,5 @@ You don't need much to get a BitBean slingin' bot up and running, but the proces
 
 * JavaScript - latest stable version
 * NPM - package manager for JavaScript
+* discord.js - the meat and potatoes of the whole bot, its dependencies are listed [here](https://discord.js.org/#/docs/main/stable/general/welcome)
 * Winston - JavaScript logging library, more info [here](https://github.com/winstonjs/winston)
-* discord.js - the meat and potatoes of the whole bot
