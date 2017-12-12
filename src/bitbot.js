@@ -27,12 +27,12 @@ client.on('ready', () => {		// Le's bOOT IT UP ladies 'n' genlmn!
 client.on('Message', member => {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
-    if (message.channel.name == "welcome" && Message.content.substring(0, 1) == '!') {
+	console.log(message.channel.name);
+    if (message.channel.TextChannel.name == "#welcome" && Message.content.substring(0, 1) == '!') {
         var args = message.content.substring(1).split(' ');
-        var cmd = args[0];
-		var walletcmd = args[1];
-       
-        args = args.splice(1);
+        console.log(args[0]);
+		var cmd = args[0];
+		
         if (cmd == 'yee') {
 			message.reply("According to all known laws of aviation, there is no way a bee should be able to fly. Its wings are too small to get its fat little body off the ground. The bee, of course, flies anyway because bees don't care what humans think is impossible.");
 		} else if (cmd == 'wallet') {
