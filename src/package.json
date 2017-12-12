@@ -1,0 +1,16 @@
+{
+  "name": "bitbot",
+  "version": "1.0.0",
+  "description": "exchange BitBean through Discord",
+  "main": "bitbot.js",
+  "author": "Brandon Denton",
+  "dependencies": {
+    "bufferutil",
+    "discord.js",
+    "erlpack": "hammerandchisel/erlpack",
+    "libsodium.js": "libsodium-wrappers",
+    "sodium",
+    "uws",
+    "winston": "^2.4.0"
+  }
+}
