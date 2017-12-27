@@ -10,7 +10,6 @@
     "erlpack": "hammerandchisel/erlpack",
     "libsodium.js": "libsodium-wrappers",
     "sodium",
-    "uws",
-    "winston": "^2.4.0"
+    "uws"
   }
 }

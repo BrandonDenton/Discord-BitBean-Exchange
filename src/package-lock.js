@@ -62,19 +62,6 @@
       "resolved": "https://registry.npmjs.org/ultron/-/ultron-1.0.2.tgz",
       "integrity": "sha1-rOEWq1V80Zc4ak6I9GhTeMiy5Po="
     },
-    "winston": {
-      "version": "2.4.0",
-      "resolved": "https://registry.npmjs.org/winston/-/winston-2.4.0.tgz",
-      "integrity": "sha1-gIBQuT1SZh7Z+2wms/DIJnCLCu4=",
-      "requires": {
-        "async": "1.0.0",
-        "colors": "1.0.3",
-        "cycle": "1.0.3",
-        "eyes": "0.1.8",
-        "isstream": "0.1.2",
-        "stack-trace": "0.0.10"
-      }
-    },
     "ws": {
       "version": "1.1.5",
       "resolved": "https://registry.npmjs.org/ws/-/ws-1.1.5.tgz",
