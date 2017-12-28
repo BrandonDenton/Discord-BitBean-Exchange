@@ -55,8 +55,15 @@ client.on('message', message => {
 							break;
 						} else {
 							/*// BitBean interaction code here
-							var sourceAddr = findAddr(message.author.username + );
-							var privateKeyWIF = 'somelongstring0912m951sdfam09mf30sks';
+							var sourceAddr = findAddr(message.author.username + "#" + message.author.discriminator);	// implement findAddr()
+							var key = bitcoin.ECKey.fromWIF(<SIGNING_KEY>);
+							var trans = new bitcoin.TransactionBuilder();
+							trans.addInput(<SOURCE_ADDR>, 1);
+							trans.addOutput(<DEST_ADDR>, <AMOUNT>);		// no fee added
+							trans.sign(0, key);		// transaction done
+							console.log(trans.build().toHex());
+
+
 						
 							destName = args[2] + 
 							var targetAddr = (new bitcore.PrivateKey).toAddress( findAddr(args[2])
