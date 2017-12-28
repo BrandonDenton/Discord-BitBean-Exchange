@@ -1,26 +1,13 @@
 //BitBean Bot
 
-//var Discord = require('discord.io');
-var logger = require('winston');
 //var bitcoin = require('bitcoinjs-lib');
 var auth = require('./auth.json');
 //var config = require('./config.json');
-
-// Configure logger settings
-logger.remove(logger.transports.Console);
-logger.add(logger.transports.Console, {
-    colorize: true
-});
-logger.level = 'debug';
-
-//log records on server side
-var file = new File('../config/bitbot.LOG');
 
 //discord.js stuff
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const token = auth.token;
-const garbage = new Discord.MessageCollector('welcome', );
 
 client.on('ready', () => {		// Le's bOOT IT UP ladies 'n' genlmn!
 	console.log('bitbot ready');
@@ -29,7 +16,7 @@ client.on('ready', () => {		// Le's bOOT IT UP ladies 'n' genlmn!
 	//console.log(client.channels);
 	
 	
-	file.open("w");		// logging
+	//file.open("w");		// logging
 });
 
 // BitBean Exchange Commands
