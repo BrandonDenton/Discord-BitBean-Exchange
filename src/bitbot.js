@@ -1,6 +1,4 @@
 //BitBean Bot
-
-var easybitbean = require('easy-bitcoin-js');
 const bitbean = require('bitcoinjs-lib');
 const testNet = bitbean.networks.testnet;
 
@@ -52,35 +50,26 @@ client.on('message', message => {
 				
 						message.reply(messageWUser);
 						break;
-					case	'send':
-						if (args.length != 3) {
-							message.reply("Please tag a member at the end of your message (!wallet send @<USER_TO_SEND>).");					
+					case	'send':		// USAGE: !bitbot send <USER_TAG_TO_SEND> <AMOUNT>
+						if (args.length != 4) {
+							message.reply("Please tag a member at the end of your message and indicate the amount of *beans* to send (!bitbot send @<USER_TO_SEND> <AMOUNT>).");					
 							break;
 						} else {
-							/*// BitBean interaction code here
-							// Easy Bitcoin
-							
-							
-							
-							let kpair = bitbean.ECPair.makeRandom({network: testNet});
-							let publicKey = kpair.getAddress();
-							let privateKey = kpair.toWIF();
-							
-							
-							var sourceAddr = findAddr(message.author.username + "#" + message.author.discriminator);	// implement findAddr()
-							var key = bitbean.ECKey.fromWIF(<SIGNING_KEY>);
-							var trans = new bitbean.TransactionBuilder();
-							trans.addInput(<SOURCE_ADDR>, 1);
-							trans.addOutput(<DEST_ADDR>, <AMOUNT>);		// no fee added
-							trans.sign(0, key);		// transaction done
-							console.log(trans.build().toHex());
-
-
-						
-							destName = args[2] + 
-							var targetAddr = (new bitcore.PrivateKey).toAddress( findAddr(args[2])
-							*/
-							message.reply("You just sent " + args[2] + " <X> BitBean.");
+							try {
+								// BitBean interaction code here
+								var sourceAddr = findAddr(message.author.username + "#" + message.author.discriminator);	// implement findAddr()
+								var key = bitbean.ECPair.fromWIF(sourceAddr);
+								var trans = new bitbean.TransactionBuilder();
+								trans.addInput(sourceAddr, 1);
+								trans.addOutput(findAddr(args[2]), args[3]);		// no fee added
+								trans.sign(0, key);		// transaction done
+								console.log(trans.build().toHex());
+								
+								message.reply("You just sent " + args[2] + " <X> BitBean.");
+								console.log("Transaction from " + message.author.username + "#" + message.author.discriminator + " to " + <USER_SENT> + "completed at " Date.now());
+							} catch(err) {
+								message.reply("Please tag a valid username for someone on this server (include the full name with their unique 4-digit code!).");
+							}
 							break;
 						}
 					default:
