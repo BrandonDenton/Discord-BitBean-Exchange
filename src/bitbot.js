@@ -1,6 +1,9 @@
 //BitBean Bot
 
-//var bitcoin = require('bitcoinjs-lib');
+var easybitbean = require('easy-bitcoin-js');
+const bitbean = require('bitcoinjs-lib');
+const testNet = bitbean.networks.testnet;
+
 var auth = require('./auth.json');
 //var config = require('./config.json');
 
@@ -55,9 +58,18 @@ client.on('message', message => {
 							break;
 						} else {
 							/*// BitBean interaction code here
+							// Easy Bitcoin
+							
+							
+							
+							let kpair = bitbean.ECPair.makeRandom({network: testNet});
+							let publicKey = kpair.getAddress();
+							let privateKey = kpair.toWIF();
+							
+							
 							var sourceAddr = findAddr(message.author.username + "#" + message.author.discriminator);	// implement findAddr()
-							var key = bitcoin.ECKey.fromWIF(<SIGNING_KEY>);
-							var trans = new bitcoin.TransactionBuilder();
+							var key = bitbean.ECKey.fromWIF(<SIGNING_KEY>);
+							var trans = new bitbean.TransactionBuilder();
 							trans.addInput(<SOURCE_ADDR>, 1);
 							trans.addOutput(<DEST_ADDR>, <AMOUNT>);		// no fee added
 							trans.sign(0, key);		// transaction done
