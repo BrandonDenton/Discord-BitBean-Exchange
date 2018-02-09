@@ -3,7 +3,8 @@ const bitbean = require('bitcoinjs-lib');
 const testNet = bitbean.networks.testnet;
 
 var auth = require('./auth.json');
-//var config = require('./config.json');
+var users = require('./users.json');
+var fs = require('fs');
 
 //discord.js stuff
 const Discord = require('discord.js');
@@ -15,9 +16,7 @@ client.on('ready', () => {		// Le's bOOT IT UP ladies 'n' genlmn!
 	// need to figure out how to limit messages by time instead of by quantity
 	//message.channel.fetchMessages({limit: 15}).then(messages => message.channel.bulkDelete(messages));
 	//console.log(client.channels);
-	
-	
-	//file.open("w");		// logging
+
 });
 
 // BitBean Exchange Commands
@@ -43,12 +42,7 @@ client.on('message', message => {
 					case	'new':
 						//grab the user's BitBean wallet address through a DM
 						message.author.sendMessage("Please enter your BitBean wallet address in this direct message thread.");
-				
-						//record user's BitBean wallet address
-						messageWUser = "Thank you, " + message.author.username + "! Your BitBean wallet address has been recorded for ease of trading *beans* on this server.";
-						
-				
-						message.reply(messageWUser);
+				        // see DM event handler below
 						break;
 					case	'send':		// USAGE: !bitbot send <USER_TAG_TO_SEND> <AMOUNT>
 						if (args.length != 4) {
@@ -65,8 +59,8 @@ client.on('message', message => {
 								trans.sign(0, key);		// transaction done
 								console.log(trans.build().toHex());
 								
-								message.reply("You just sent " + args[2] + " <X> BitBean.");
-								console.log("Transaction from " + message.author.username + "#" + message.author.discriminator + " to " + <USER_SENT> + "completed at " Date.now());
+								message.reply("You just sent " + args[2] + " some BitBean.");
+								//console.log("Transaction from " + message.author.username + "#" + message.author.discriminator + " to " + args[2] + "completed at " Date.now());
 							} catch(err) {
 								message.reply("Please tag a valid username for someone on this server (include the full name with their unique 4-digit code!).");
 							}
@@ -79,8 +73,48 @@ client.on('message', message => {
 				}	
 		} 
 	}
+	
+	if(message.channel.type == "dm") {
+	    //record user's BitBean wallet address
+		var address = message.content; var id = message.author.discriminator; var username = message.author.username;
+		var userobj = {username: {"id": id, "walletAddr": address}};
+					
+		fs.writeFile("./users.json", JSON.stringify(userObj, null, 4), (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            };
+            console.log(message.author.username + " added to the user list");
+        });
+						
+		messageWUser = "Thank you, " + message.author.username + "! Your BitBean wallet address has been recorded for ease of trading *beans* on this server.";
+				
+		message.reply(messageWUser);	
+	}
 });
 
+function findAddr(recipient) {
+	var re = /.*#[0-9]{4}/;
+	var address;	
+	try {
+	    var input = recipient.match(re);
+	} catch(error) {
+		console.log(error);
+		return "broke";
+	}
+	
+    for (var i in users) {
+		if(typeof users[i] == input[0] && users.id == input[1]){
+            address = users.walletAddr;
+			break;
+        } else {
+		    console.log(error + ", username does not match or is invalid");
+	        return "broke";
+        }		
+	}
+	
+	return address;
+}
 
 // Chat Clearing Commands
 	//const deleteCount
