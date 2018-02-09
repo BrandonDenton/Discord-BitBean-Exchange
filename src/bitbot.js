@@ -37,12 +37,16 @@ client.on('message', message => {
 			case	'bitbot':
 				switch(walletcmd) {
 					case	'help':
-						message.reply("Here's how to use the BitBean Exchange bot on this server!\n\n\t**!bitbot new:** DMs you and records your wallet address that you send to the bot privately for easy exchange of BitBean by you, server staff, or other users.\n\t**!bitbot give <user_tag>:** Gives a server member a set amount of BitBean (you'll be prompted for the amount by the bot to confirm the transaction).\n\t**!bitbot request <user_tag>:** Requests a set amoung of BitBean from a user (again, you'll be prompted by a user, pls don't spam this).\n\nIf you have any further questions, please don't hesitate to contact server staff or refer to the BitBean Exchange documentation.");
+						message.reply("Here's how to use the BitBean Exchange bot on this server!\n\n\t**!bitbot new** DMs you and records your wallet address that you send to the bot privately for easy exchange of BitBean by you, server staff, or other users.\n\t**!bitbot give <user_tag> <amount>:** Gives a server member a set amount of BitBean (you'll be prompted for the amount by the bot to confirm the transaction).\n\t**!bitbot request <user_tag>:** Requests a set amoung of BitBean from a user (again, you'll be prompted by a user, pls don't spam this).\n\t**!bitbot remove** delete your wallet address from the bot's record (you'll get a DM asking you to confirm this change)\n\nIf you have any further questions, please don't hesitate to contact server staff or refer to the BitBean Exchange documentation.");
 						break;
 					case	'new':
 						//grab the user's BitBean wallet address through a DM
 						message.author.sendMessage("Please enter your BitBean wallet address in this direct message thread.");
 				        // see DM event handler below
+						break;
+					case    'remove':
+						message.author.sendMessage("Are you sure you want to delete your wallet address from this server? You won't be able to use BitBot or participate in certain events if you do!\n\n Type 'yes' to confirm.");
+					    // delete user's Bean wallet address from the list, see DM method
 						break;
 					case	'send':		// USAGE: !bitbot send <USER_TAG_TO_SEND> <AMOUNT>
 						if (args.length != 4) {
@@ -67,7 +71,7 @@ client.on('message', message => {
 							break;
 						}
 					default:
-						message.reply("Here's how to use the BitBean Exchange bot on this server!\n\n\t**!wallet new:** DMs you and records your wallet address that you send to the bot privately for easy exchange of BitBean by you, server staff, or other users.\n\t**!wallet give <user_tag>:** Gives a server member a set amount of BitBean (you'll be prompted for the amount by the bot to confirm the transaction).\n\t**!wallet request <user_tag>:** Requests a set amoung of BitBean from a user (again, you'll be prompted by a user, pls don't spam this).\n\nIf you have any further questions, please don't hesitate to contact server staff or refer to the BitBean Exchange documentation.");
+						message.reply("Here's how to use the BitBean Exchange bot on this server!\n\n\t**!bitbot new** DMs you and records your wallet address that you send to the bot privately for easy exchange of BitBean by you, server staff, or other users.\n\t**!bitbot give <user_tag> <amount>:** Gives a server member a set amount of BitBean (you'll be prompted for the amount by the bot to confirm the transaction).\n\t**!bitbot request <user_tag>:** Requests a set amoung of BitBean from a user (again, you'll be prompted by a user, pls don't spam this).\n\t**!bitbot remove** delete your wallet address from the bot's record (you'll get a DM asking you to confirm this change)\n\nIf you have any further questions, please don't hesitate to contact server staff or refer to the BitBean Exchange documentation.");
 						console.log(message.author.username + " doesn't know how to use the bot, lol.");
 					break;	
 				}	
@@ -76,10 +80,16 @@ client.on('message', message => {
 	
 	if(message.channel.type == "dm") {
 	    //record user's BitBean wallet address
-		var address = message.content; var id = message.author.discriminator; var username = message.author.username;
-		var userobj = {username: {"id": id, "walletAddr": address}};
+		var address = message.content; id = message.author.discriminator; var username = message.author.username;
+		var userobj;
+		if(message.content[0] == "yes" || message.content[0] == "Yes" || message.content[0] == "YES") {
+		    userobj = {username: {"id": id, "walletAddr": ""}};
+		} else {
+			address = message.content;
+			userobj = {username: {"id": id, "walletAddr": address}};
+		}
 					
-		fs.writeFile("./users.json", JSON.stringify(userObj, null, 4), (err) => {
+		fs.writeFile("./users.json", JSON.stringify(userobj, null, 4), (err) => {
             if (err) {
                 console.error(err);
                 return;
@@ -88,8 +98,7 @@ client.on('message', message => {
         });
 						
 		messageWUser = "Thank you, " + message.author.username + "! Your BitBean wallet address has been recorded for ease of trading *beans* on this server.";
-				
-		message.reply(messageWUser);	
+		message.reply(messageWUser);
 	}
 });
 
