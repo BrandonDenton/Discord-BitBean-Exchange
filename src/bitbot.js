@@ -5,6 +5,7 @@ const testNet = bitbean.networks.testnet;
 var auth = require('./auth.json');
 var users = require('./users.json');
 var fs = require('fs');
+var winston = require('winston');
 
 //discord.js stuff
 const Discord = require('discord.js');
@@ -13,10 +14,15 @@ const token = auth.token;
 
 client.on('ready', () => {		// Le's bOOT IT UP ladies 'n' genlmn!
 	console.log('bitbot ready');
-	// need to figure out how to limit messages by time instead of by quantity
-	//message.channel.fetchMessages({limit: 15}).then(messages => message.channel.bulkDelete(messages));
-	//console.log(client.channels);
-
+	winston.add(
+		winston.transports.File, {
+			filename: 'node-log-file.json.log',
+			level: 'info',
+			json: true,
+			eol: '\n', // for Windows, or `eol: '\n',` for *NIX OSs
+			timestamp: true
+		}
+	);
 });
 
 // BitBean Exchange Commands
@@ -61,10 +67,10 @@ client.on('message', message => {
 								trans.addInput(sourceAddr, 1);
 								trans.addOutput(findAddr(args[2]), args[3]);		// no fee added
 								trans.sign(0, key);		// transaction done
-								console.log(trans.build().toHex());
+								winston.info(trans.build().toHex());
 								
 								message.reply("You just sent " + args[2] + " some BitBean.");
-								//console.log("Transaction from " + message.author.username + "#" + message.author.discriminator + " to " + args[2] + "completed at " Date.now());
+								winston.info("Transaction from " + message.author.username + "#" + message.author.discriminator + " to " + args[2] + "completed at " Date.now());
 							} catch(err) {
 								message.reply("Please tag a valid username for someone on this server (include the full name with their unique 4-digit code!).");
 							}
@@ -72,7 +78,7 @@ client.on('message', message => {
 						}
 					default:
 						message.reply("Here's how to use the BitBean Exchange bot on this server!\n\n\t**!bitbot new** DMs you and records your wallet address that you send to the bot privately for easy exchange of BitBean by you, server staff, or other users.\n\t**!bitbot give <user_tag> <amount>:** Gives a server member a set amount of BitBean (you'll be prompted for the amount by the bot to confirm the transaction).\n\t**!bitbot request <user_tag>:** Requests a set amoung of BitBean from a user (again, you'll be prompted by a user, pls don't spam this).\n\t**!bitbot remove** delete your wallet address from the bot's record (you'll get a DM asking you to confirm this change)\n\nIf you have any further questions, please don't hesitate to contact server staff or refer to the BitBean Exchange documentation.");
-						console.log(message.author.username + " doesn't know how to use the bot, lol.");
+						winston.info(message.author.username + " doesn't know how to use the bot, lol.");
 					break;	
 				}	
 		} 
@@ -94,7 +100,7 @@ client.on('message', message => {
                 console.error(err);
                 return;
             };
-            console.log(message.author.username + " added to the user list");
+            winston.info(message.author.username + " added to the user list");
         });
 						
 		messageWUser = "Thank you, " + message.author.username + "! Your BitBean wallet address has been recorded for ease of trading *beans* on this server.";
@@ -108,7 +114,7 @@ function findAddr(recipient) {
 	try {
 	    var input = recipient.match(re);
 	} catch(error) {
-		console.log(error);
+		winston.debug(error);
 		return "broke";
 	}
 	
@@ -117,7 +123,7 @@ function findAddr(recipient) {
             address = users.walletAddr;
 			break;
         } else {
-		    console.log(error + ", username does not match or is invalid");
+	        winston.debug(error + ", username does not match or is invalid");
 	        return "broke";
         }		
 	}
